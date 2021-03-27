@@ -7,7 +7,7 @@ import investpy as inv
 def ConsultaAtivo(tick):
 
     fim = datetime.date.today()
-    inicio = fim - datetime.timedelta(days=600)
+    inicio = fim - datetime.timedelta(days=560)
 
     dinicio = datetime.datetime.strptime(str(inicio), "%Y-%m-%d").strftime("%d/%m/%Y") 
     dfim = datetime.datetime.strptime(str(fim), "%Y-%m-%d").strftime("%d/%m/%Y")

@@ -23,3 +23,14 @@ def CalculaIFR(df,window=7,colum='ifr'):
      #Cria o DataFrame com os valores da media movel e usa a data como indice
     ifrs = pd.DataFrame(data = ifrs, index = df.index[(window):], columns=[colum])
     return ifrs
+
+
+#Cria o DataFrame da media movel simples
+def CalculaSMAVolume(df,window=20,colum='sma'):
+
+    print(df['Volume'])
+    vmas = ta.SMA(df['Volume'],window)
+    #Cria o DataFrame com os valores da media movel e usa a data como indice
+    vmas = pd.DataFrame(data = vmas, index = df.index, columns = [colum])
+
+    return vmas

@@ -140,7 +140,7 @@ def AnalisaToqueFibo(df):
   l = get_topo_historico (dfAux)
 
   
-  print ('Topo:'+df.index[i].strftime('%d/%m/%Y') + ' Fundo:'+df.index[k].strftime('%d/%m/%Y'))
+  #print ('Topo:'+df.index[i].strftime('%d/%m/%Y') + ' Fundo:'+df.index[k].strftime('%d/%m/%Y'))
 
 
   #print ('Fundo a partir de '+ df.index[j+1].strftime('%d/%m/%Y') +':'+str(df.iat[k,2]))
@@ -150,8 +150,8 @@ def AnalisaToqueFibo(df):
   resultado[1] = saida[1]
   resultado[2] = dfAux.iat[l,1]
   resultado[3] = df.iat[k,2]
-  resultado[4] = l
-  resultado[5] = k
+  resultado[4] = l #Indice topo
+  resultado[5] = k #Indice fundo
   
 
   #print ('Resultado:'+ resultado)

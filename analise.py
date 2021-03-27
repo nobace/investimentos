@@ -1,6 +1,7 @@
 import ativo
 import indicadores as ind
 import fibonacci as fibo
+import graficos as g
 
 
 def AnalisaEntrada(ticker):
@@ -14,13 +15,17 @@ def AnalisaEntrada(ticker):
 
     toque = fibo.AnalisaToqueFibo(dados)
 
+    print("IFR:"+str(ifr))
     if toque[1] > 38.2 and ifr < 30:
         print("Entrada! IFR:"+str(ifr))
+        g.GeraGraficoEntrada('Semanal', dados, ticker, toque)
     else:
         print(toque)
 
     return toque
     
+
+res = AnalisaEntrada("RENT3")
 
 
 
