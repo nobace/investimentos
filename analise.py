@@ -7,16 +7,26 @@ import graficos as g
 def AnalisaEntrada(ticker, pasta):
     print("Analisando "+ ticker)
     pastaImagens= pasta + '/imagens/'
+    resultado = [ '',  #0 - Imagem grafico
+                  0.0, #1 - Entrada
+                  0.0, #2 - Stop
+                  0.0, #3 - IFR
+                  0.0, #4 - Retracao Fibo
+                  0.0, #5 - Preço Alvo 1
+                  0.0, #6 - Preço Alvo 2
+                  0.0, #7 - Preço Alvo 3
+                  ''   #8 - Ticker                  
+    ]
 
     dados = ativo.ConsultaAtivoSemanal(ticker)
     tamanho = dados.shape[0]
     print(str(tamanho))
     if tamanho >= 80:
-        ifr4 = ind.CalculaIFR(dados, 4)
+        ifr5 = ind.CalculaIFR(dados, 5)
 
-        ifr4 = ifr4.tail(1)
+        ifr5 = ifr5.tail(1)
 
-        ifr = ifr4.iat[0,0]
+        ifr = ifr5.iat[0,0]
 
         mm9 = ind.CalculaEMA(dados, 9)
         mm9 = mm9.tail(1)
@@ -29,15 +39,33 @@ def AnalisaEntrada(ticker, pasta):
 
         toque = fibo.AnalisaToqueFibo(dados)
 
-        if toque[1] > 38.2 and ifr < 30 and vmm9 > vmm80:
+        if toque[1] > 38.2 and ifr <= 30 and vmm9 > vmm80:
             print("Entrada! IFR:"+str(ifr))
-            g.GeraGraficoEntrada('Semanal', dados, ticker, toque, pastaImagens)
+
+            entrada = dados.iat[dados.shape[0] - 1, 1] + 0.01
+            stop = dados.iat[dados.shape[0] - 1, 2]
+
+            topo = toque[2]
+            fundo = toque[3]
+
+            amplitude = topo-fundo
+            p050 = stop + amplitude * 0.5
+            p061 = stop + amplitude * 0.618
+            p100 = stop + amplitude 
+
+            resultado[0] = g.GeraGraficoEntrada('Semanal', dados, ticker, toque, pastaImagens)
+            resultado[1] = entrada
+            resultado[2] = stop
+            resultado[3] = ifr
+            resultado[4] = toque[1]
+            resultado[5] = p050
+            resultado[6] = p061
+            resultado[7] = p100
+            resultado[8] = ticker
         else:
             print(toque)
-    else:
-        toque = [ '', 0.0, 0.0, 0.0, 0, 0]
 
-    return toque
+    return resultado
     
 
 #res = AnalisaEntrada("RENT3")

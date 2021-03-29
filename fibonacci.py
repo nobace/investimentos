@@ -115,7 +115,14 @@ def AnalisaRetracaoFibo(Preco, Topo, Fundo):
 
 
 def AnalisaToqueFibo(df):
-  resultado = [ '', 0.0, 0.0, 0.0, 0, 0]
+  resultado = [
+                 '',  #Texto
+                 0.0, #Perc. Retração
+                 0.0, #Topo
+                 0.0, #Fundo
+                 0,   #Indice Topo
+                 0    #Indice Fundo
+              ]
   last = df.shape[0] - 1
 
   i = get_topo_anterior(df, last)
