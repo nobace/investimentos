@@ -6,7 +6,7 @@ import graficos as g
 
 def AnalisaEntrada(ticker, pasta):
     print("Analisando "+ ticker)
-    pastaImagens= pasta + '/imagens/'
+    pastaImagens= pasta + '/imagens/entradas/'
     resultado = [ '',  #0 - Imagem grafico
                   0.0, #1 - Entrada
                   0.0, #2 - Stop
@@ -71,4 +71,26 @@ def AnalisaEntrada(ticker, pasta):
 #res = AnalisaEntrada("RENT3")
 
 
+def AnalisaSaida(ticker, qtd, vCompra, pasta):
+    print("Analisando "+ ticker)
+    pastaImagens= pasta + '/imagens/saidas/'
+    resultado = [ '',  #0 - Imagem grafico
+                  0.0, #1 - Saida
+                  0.0, #2 - Lucro
+                  ''   #8 - Ticker                  
+    ]
 
+    dados = ativo.ConsultaAtivoSemanal(ticker)
+    tamanho = dados.shape[0]
+    
+    if tamanho >= 12:
+        ifr5 = ind.CalculaIFR(dados, 5)
+        #Calcula IFR(5) Semana atual
+        ifrAtual = ifr5.iat[ifr5.shape[0]-1, 0]
+        #Calcula IFR(5) Semana anterior
+        ifrAnt = ifr5.iat[ifr5.shape[0]-2, 0]
+
+        #Se IFR(5) Anterior > 70 e IFR(5) Atual < 70, o ponto de saída é na perda da minima da semana atual
+        if ifrAnt > 70 and ifrAtual < ifrAnt:
+            saida = dados.iat[dados.shape[0] - 1, 2]
+            print("Saída em "+str(saida))
