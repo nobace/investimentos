@@ -1,6 +1,7 @@
 import pandas as pd
 import analise
 import notificacao as msg
+import math
 
 pasta = "C:/Users/Nob/Documents/Workspace/AnaliseFinanceira/"
 
@@ -37,3 +38,20 @@ for Papel in Tickers:
 
 
 #print(dados)
+
+dados = pd.read_csv(pasta+'bdrs.csv', sep=';')
+dados = dados.dropna(subset=['CÓDIGO'])
+
+dados.set_index('CÓDIGO', inplace=True)
+Tickers = dados.index
+print(str(Tickers))
+
+for Bdr in Tickers: 
+    Papel = dados.at[Bdr, "TICKER"]
+    if type(Papel) == str:
+        res = analise.AnalisaEntradaBDR(Papel, Bdr,  pasta)
+        if res[0] != '':
+            msg.EnviaCallEntradaTelegram(res, chatid, token)
+
+
+#analise.AnalisaEntradaBDR('AAPL', 'AAPL34', pasta)

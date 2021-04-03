@@ -4,7 +4,7 @@ import investpy as inv
 import pandas as pd
 
 
-def ConsultaAtivo(tick):
+def ConsultaAtivo(tick, country="brazil"):
 
     fim = datetime.date.today()
     inicio = fim - datetime.timedelta(days=600)
@@ -15,7 +15,7 @@ def ConsultaAtivo(tick):
     #df = yf.Ticker(tick+".SA")
     #df = df.history(start=inicio, end=fim, interval="1d", prepost=True)   
     try:
-      df = inv.get_stock_historical_data(tick, country='brazil',  from_date=dinicio, to_date=dfim)
+      df = inv.get_stock_historical_data(tick, country,  from_date=dinicio, to_date=dfim)
       df = df[df['Open']>0]      
     except:
       df = pd.DataFrame()
@@ -23,8 +23,8 @@ def ConsultaAtivo(tick):
   
     return df
 
-def ConsultaAtivoSemanal(tick):
-    df = GeraSemanal (ConsultaAtivo(tick))
+def ConsultaAtivoSemanal(tick, country='brazil'):
+    df = GeraSemanal (ConsultaAtivo(tick, country))
     return df
 
 

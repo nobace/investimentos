@@ -66,7 +66,81 @@ def AnalisaEntrada(ticker, pasta):
             print(toque)
 
     return resultado
-    
+
+
+def AnalisaEntradaBDR(ticker, bdr, pasta):
+
+    pastaImagens= pasta + '/imagens/entradas/'
+    resultado = [ '',  #0 - Imagem grafico
+                  0.0, #1 - Entrada
+                  0.0, #2 - Stop
+                  0.0, #3 - IFR
+                  0.0, #4 - Retracao Fibo
+                  0.0, #5 - Preço Alvo 1
+                  0.0, #6 - Preço Alvo 2
+                  0.0, #7 - Preço Alvo 3
+                  ''   #8 - Ticker                  
+    ]
+
+    if type(ticker) == str and type(bdr) == str:
+        print("Analisando "+ str(ticker))
+        dados = ativo.ConsultaAtivoSemanal(ticker, 'united states')
+        dados2 = ativo.ConsultaAtivoSemanal(bdr)
+
+        tamanho = dados.shape[0]
+        tamanho2 = dados2.shape[0]    
+        print("Tam Ação:"+str(tamanho))
+        print("Tam BDR:"+str(tamanho2))
+
+        if tamanho >= 80 and tamanho2 >=80 :
+            ifr5 = ind.CalculaIFR(dados, 5)
+
+            ifr5 = ifr5.tail(1)
+
+            ifr = ifr5.iat[0,0]
+
+            mm9 = ind.CalculaEMA(dados, 9)
+            mm9 = mm9.tail(1)
+            vmm9 = mm9.iat[0,0]
+
+
+            mm80 = ind.CalculaSMA(dados, 80)
+            mm80 = mm80.tail(1)
+            vmm80 = mm80.iat[0,0]
+
+            toque = fibo.AnalisaToqueFibo(dados)
+            toque2 = fibo.AnalisaToqueFibo(dados2)
+
+
+            if toque[1] > 38.2 and ifr <= 30 and vmm9 > vmm80:
+                print("Entrada! IFR:"+str(ifr))
+
+                entrada = dados2.iat[dados2.shape[0] - 1, 1] + 0.01
+                stop = dados2.iat[dados2.shape[0] - 1, 2]
+
+                topo = toque2[2]
+                fundo = toque2[3]
+
+                amplitude = topo-fundo
+                p050 = stop + amplitude * 0.5
+                p061 = stop + amplitude * 0.618
+                p100 = stop + amplitude 
+
+                resultado[0] = g.GeraGraficoEntrada('Semanal', dados2, bdr, toque2, pastaImagens)
+                resultado[1] = entrada
+                resultado[2] = stop
+                resultado[3] = ifr
+                resultado[4] = toque2[1]
+                resultado[5] = p050
+                resultado[6] = p061
+                resultado[7] = p100
+                resultado[8] = bdr
+            else:
+                print(toque)
+    else:
+        print("Ticker inválido")
+    return resultado
+
 
 #res = AnalisaEntrada("RENT3")
 
