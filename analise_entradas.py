@@ -17,7 +17,7 @@ dados.set_index('TICKER', inplace=True)
 Tickers = dados.index
 print(str(Tickers))
 
-disclaimer = 'SWING TRADE OU POSITION TRADE\nAs análises apresentadas a seguir são para operações de Swing ou Position Trade levando em conta, médias móveis, suportes, resistências e indicadores com o timeframe semanal para encontrar possíveis pontos de reversão da tendência de queda, por favor não utilizar esses parâmetros para Day Trade\n\n'
+disclaimer = 'COMPRAS DA SEMANA - SWING OU POSITION TRADE\nAs análises apresentadas a seguir são para operações de Swing ou Position Trade levando em conta, médias móveis, suportes, resistências e indicadores com o timeframe semanal para encontrar possíveis pontos de reversão da tendência de queda, por favor não utilizar esses parâmetros para Day Trade\n\n'
 disclaimer +='LEGENDA DOS GRÁFICOS:\n'
 disclaimer +='- Tracejado preto: indicam topo e fundo do último movimento de alta\n'
 disclaimer +="- Tracejado vermelho: indica a retração de 50% em relação ao último movimento de alta\n"
@@ -29,13 +29,25 @@ disclaimer +="- Linha azul: média móvel de 21 semanas\n"
 disclaimer +="- Linha laranja: média móvel de 50 semanas\n"
 disclaimer +="- Linha azul claro: média móvel de 80 semanas\n\n"
 
-msg.EnviaTexto(disclaimer, chatid, token)
+
+#analise.AnalisaEntrada('HAPV3', pasta)
+
+msg.EnviaTextoTelegram(disclaimer, chatid, token)
 
 for Papel in Tickers: 
-    res = analise.AnalisaEntrada(Papel, pasta)
+    res = analise.AnalisaEntrada(Papel, pasta, 'Semanal')
     if res[0] != '':
         msg.EnviaCallEntradaTelegram(res, chatid, token)
 
+
+
+res = analise.AnalisaEntradaCrypto('bitcoin', pasta, 'Diario')
+if res[0] != '':
+    msg.EnviaCallEntradaTelegram(res, chatid, token)
+
+res = analise.AnalisaEntradaCrypto('litecoin', pasta, 'Diario')
+if res[0] != '':
+    msg.EnviaCallEntradaTelegram(res, chatid, token)
 
 #print(dados)
 
@@ -49,7 +61,7 @@ print(str(Tickers))
 for Bdr in Tickers: 
     Papel = dados.at[Bdr, "TICKER"]
     if type(Papel) == str:
-        res = analise.AnalisaEntradaBDR(Papel, Bdr,  pasta)
+        res = analise.AnalisaEntradaBDR(Papel, Bdr,  pasta, 'Semanal')
         if res[0] != '':
             msg.EnviaCallEntradaTelegram(res, chatid, token)
 

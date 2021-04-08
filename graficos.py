@@ -37,6 +37,7 @@ def GeraGraficoEntrada(periodo, dados, Papel, toque, dir):
     amplitude = topo-fundo
     r050 = topo - amplitude * 0.5
     r061 = topo - amplitude * 0.618
+    #r078 = topo - amplitude * 0.786
 
     p100 = stop + amplitude
 

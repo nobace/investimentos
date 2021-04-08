@@ -124,6 +124,7 @@ def AnalisaToqueFibo(df):
                  0    #Indice Fundo
               ]
   last = df.shape[0] - 1
+  fundo_atual = df.iat[last,2]
 
   i = get_topo_anterior(df, last)
   #print ('Topo 1:'+df.index[i].strftime('%d/%m/%Y') +' --- '+ str(df.iat[i,1]))
@@ -135,8 +136,13 @@ def AnalisaToqueFibo(df):
 
   dfAux = df.tail(last - i)
   l = get_fundo_historico (dfAux)
+
+  topo_atual = df.iat[i,1]
   fundoRef = dfAux.iat[l,2]
+  Diff = topo_atual - fundoRef
+  F78 = topo_atual - Diff * 0.786  
   #print ('Desconto: '+str(last - i)+' Topo:'+df.index[i].strftime('%d/%m/%Y') + ' Fundo:'+dfAux.index[l].strftime('%d/%m/%Y'))
+
 
   while df.iat[k,2] > fundoRef and k > 0:
     k -= 1
@@ -146,7 +152,28 @@ def AnalisaToqueFibo(df):
   dfAux = df.tail(last - k)
   l = get_topo_historico (dfAux)
 
-  
+
+  topo_atual = dfAux.iat[l,1]
+  fundoRef = df.iat[k,2]
+
+  Diff = topo_atual - fundoRef
+  F78 = topo_atual - Diff * 0.786
+
+
+  print ('Fundo Atual:'+ str(fundo_atual) + ' F78:'+ str(F78))
+
+
+  if fundo_atual < F78:
+    while df.iat[k,2] >= fundoRef and k > 0:
+      k -= 1
+      k = get_fundo_anterior(df, k)
+      #print ('Topo:'+df.index[i].strftime('%d/%m/%Y') + ' Fundo:'+df.index[k].strftime('%d/%m/%Y'))
+
+    dfAux = df.tail(last - k)
+    l = get_topo_historico (dfAux)
+
+
+
   #print ('Topo:'+df.index[i].strftime('%d/%m/%Y') + ' Fundo:'+df.index[k].strftime('%d/%m/%Y'))
 
 

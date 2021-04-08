@@ -21,5 +21,5 @@ for i in range(3, sheet.max_row+1):
     vCompra = sheet.cell(row=i, column=9).value
 
     dtinicio = dtinicio.strftime("%Y-%m-%d") 
-    print (ticker+' - qtd:'+ str(qtd)+ ' - Valor:'+ str(vCompra))
+    #print ("\nAnalisando "+ ticker+' - qtd:'+ str(qtd)+ ' - Valor:'+ str(vCompra))
     analise.AnalisaSaida(ticker, qtd, vCompra, pasta)
