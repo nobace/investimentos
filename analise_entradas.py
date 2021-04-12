@@ -5,8 +5,8 @@ import math
 
 pasta = "C:/Users/Nob/Documents/Workspace/AnaliseFinanceira/"
 
-#chatid = '-1001468582724'
-chatid = '1226527973'
+chatid = '-1001468582724'
+#chatid = '1226527973'
 token = '1417632508:AAGgEP6emy2QeHcYJWEnOv6tc9Cgdmui6yg'
 
 

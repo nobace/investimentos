@@ -59,15 +59,15 @@ def GeraGraficoEntrada(periodo, dados, Papel, toque, dir):
 
     return filename
 
-def GeraGraficoSaida(periodo, dados, Papel, toque, dir):
 
+def GeraGraficoSaida(periodo, dados, Papel, toque, dir):
 
     EMA9 = ind.CalculaEMA(dados, 9)
     EMA21 = ind.CalculaEMA(dados, 21)
     EMA50 = ind.CalculaEMA(dados, 50)    
     #EMA80 = ind.CalculaEMA(dados, 80)     
     VMA = ind.CalculaSMAVolume(dados, 20)
-    IFR = ind.CalculaIFR(dados, 4)
+    IFR = ind.CalculaIFR(dados, 5)
 
 
     ap0 = [ mpf.make_addplot(EMA9,color='#FF00FF'),  # uses panel 0 by default
